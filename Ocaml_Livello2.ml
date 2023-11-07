@@ -1,3 +1,22 @@
+(* Esercizio 1 -> Comparing Fractions *)
+
+let is_posfra (a:int) (b:int) : bool =
+  if((a<0)&&(b<0))||((a>0)&&(b>0)) then true
+  else if (a=0 || b=0) then failwith "Not a fraction"
+  else false;;
+
+let compare_posfrac (a,b) (c,d) =
+  if(a*d) = (b*c) then 0 else
+    if (a*d) > (b*c) then 1 else -1;;
+
+assert (compare_posfrac (1,2) (2,4) == 0);;
+assert (compare_posfrac (1,2) (1,3) == 1);;
+assert (compare_posfrac (1,2) (2,3) == -1);;
+
+(* Esercizio 2 -> Bounce *)
+
+
+
 (* Esercizio 4 -> Tris *)
 
 let tris (a,b,c,d) : (bool) = match (a,b,c,d) with
