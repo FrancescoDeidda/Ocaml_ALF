@@ -11,3 +11,5 @@ assert(consecutive_even [] = 0);;
 assert(consecutive_even [1;2;3;4;5;6] = 1);; 
 
 assert(consecutive_even [1;2;2;3;4;5] = 2);;
+
+;;
