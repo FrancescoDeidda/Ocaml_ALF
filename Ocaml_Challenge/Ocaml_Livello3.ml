@@ -31,28 +31,14 @@ in aux n b [];;
 
 rnd_list 3 6;;
 
-(* Esercizio 4 -> Count zeros of a function *)
-
-let rec countzero (f: int -> int) a b  : int = 
-  let rec count n (f: int -> int) a b = match (f a, b) with 
-(0, b) when a <= b -> count (n+1) f (a+1) b
-| _ when a > b -> n
-| _ -> count n f (a+1) b
-in count 0 f a b;;
-
-assert (countzero (fun x -> x) (-10) 10 = 1);;
-assert (countzero (fun x -> x) 1 10 = 0);;
-assert (countzero (fun x -> x*x - 1) (-10) 10 = 2);;
-assert (countzero (fun x -> (if x<0 then -x else x) - 1) (-10) 10 = 2);;
-
-(* Esercizio 5 -> Rotate List *)
+(* Esercizio 4 -> Rotate List *)
 
 let rec rotate n (l: 'a list) = match (n, l) with
  (n, []) when n > 0 -> []
 | (n, l1::l2) when n> 0 -> rotate (n-1) (l2 @ [l1])
 | (n, l) when n = 0 -> l;;
 
-(* Esercizio 6 -> Consecutive Even *)
+(* Esercizio 5 -> Consecutive Even *)
 
 let consecutive_even l =
   let rec count n max l'= match (n, l') with
@@ -63,11 +49,11 @@ in count 0 0 l
 ;;
 
 
-(* Esercizio 7 -> Enumeration of integer *)
+(* Esercizio 6 -> Enumeration of integer *)
 
 let enum_int n = if(n mod 2 = 0) then n/2 else (-((n/2)+1));;
 
-(* Esercizio 8 -> Enumeration of pairs of naturals *)
+(* Esercizio 7 -> Enumeration of pairs of naturals *)
 
 let rec enum_nat_nat n = match n with
 (0) -> (0,0)
@@ -75,7 +61,7 @@ let rec enum_nat_nat n = match n with
 (x,0) -> (0,x+1)
 |(x,y) -> (x+1, y-1);;
 
-(* Esercizio 9 -> Peano Artihmetics *)
+(* Esercizio 8 -> Peano Artihmetics *)
 
 type nat = Z | S of nat;;
 
@@ -123,4 +109,36 @@ let rec leq a b = match (a,b) with
 |(S a, S b) -> leq a b
 |_ -> false;;
 
-(* Esercizio 10 -> *)
+(* Esercizio 9 -> Bit String *)
+
+type bitstring = E | Z of bitstring | U of bitstring;;
+
+let rec string_of_bitstring (s : bitstring) : string = match s with
+E -> ""
+| Z s1 -> "0" ^ string_of_bitstring s1
+| U s1 -> "1" ^ string_of_bitstring s1;;
+
+let rec len (s: bitstring) = match s with
+E -> 0
+|Z s1 -> 1 + len s1
+|U s1 -> 1 + len s1;;
+
+let rec countZ (s:bitstring) = match s with
+E -> 0
+| Z s1 -> 1 + countZ s1
+| U s1 -> countZ s1;;
+
+let rec countU (s:bitstring) = match s with
+E -> 0
+| Z -> countU s1
+| U -> 1 + countU s1;;
+
+let rec concat (s1.bitstring) (s2:bitstring) = match s1 s2 with
+E, s2 -> s2
+| s1, E -> s1
+| U s1, s2 -> U(concat s1 s2)
+| Z s1, s2 -> Z(concat s1 s2)
+;;
+
+
+

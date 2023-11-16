@@ -15,7 +15,6 @@ assert (compare_posfrac (1,2) (2,3) == -1);;
 
 (* Esercizio 2 -> Bounce *)
 
-let bounce y x = match x mod (2*y) with
 
 
 (* Esercizio 3 -> Consensus3 *)
@@ -44,23 +43,38 @@ type suit = S | H | D | C;;
 type card = Card of int * suit;;
 
 let suitEx () = match (Random.int(4)) with
-    0 -> (S, 1+Random.int(10))
-  | 1 -> (H, 1+Random.int(10))
-  | 2 -> (D, 1+Random.int(10))
-  | 3 -> (C, 1+Random.int(10))
+    0 -> (Card(1+Random.int(10),S))
+  | 1 -> (Card(1+Random.int(10),H))
+  | 2 -> (Card(1+Random.int(10),D))
+  | 3 -> (Card(1+Random.int(10),C))
   | _ -> failwith "Errore";;
 
 let rndHand () =
   (suitEx(),suitEx(),suitEx(),suitEx(),suitEx());;
 
-rndHand();; 
+let poker4 (Card(v1,s1),Card(v2,s2),Card(v3,s3),Card(v4,s4)) =
+if((v1 = v2 && v2 = v3 && v3 = v4)&&(s1<>s2 && s1<>s3 && s1<>s4 && s2<>s3 && s2<>s4 && s3<>s4)) then true else false;;
+
+let poker(c1,c2,c3,c4,c5) = 
+poker4(c1,c2,c3,c4) ||
+poker4(c5,c2,c3,c4) ||
+poker4(c1,c5,c3,c4) ||
+poker4(c1,c2,c5,c4) ||
+poker4(c1,c2,c3,c5);;
+
+poker (rndHand());;
+poker (Card(1,S),Card(1,H),Card(1,D),Card(1,C),Card(2,S));;
+poker (Card(2,S),Card(1,H),Card(1,D),Card(1,C),Card(1,S));;
+poker (Card(1,S),Card(1,H),Card(1,D),Card(2,C),Card(2,S));;
+poker (Card(1,S),Card(1,H),Card(1,D),Card(1,H),Card(2,S));;
+
 
 (* Esercizio 6 -> Sraight *)
 
 type suit = S | H | D | C;;
 type card = Card of int * suit;;
 
-let min x y = if x < y then false else true;;
+let min x y = not(x < y);;
 
 let straight (Card (n1, a), Card (n2,b), Card (n3,c), Card (n4, d), Card (n5,e)) =
   if min n1 n2 then if(n1 = n2+1) && (n2 = n3+1) && (n3 = n4+1) && (n4 = n5+1) then true else false
@@ -85,3 +99,29 @@ let win (hp,gp) =
   if ((hp+hc) = gc) then ((hc,gc),Computer)
   else if ((hp+hc) = gp) then ((hc,gc),Player)
   else ((hc,gc),Tie);;
+
+(* Esercizio 9 -> Sum Range *)
+
+let rec sumrange a b =
+  if(a > b) then 0 else a + (sumrange (a+1) b)
+;;
+
+assert (sumrange 0 1 = 1);;
+
+assert (sumrange 1 3 = 6);;
+
+assert (sumrange 3 2 = 0);;
+
+(* Esercizio 10 -> Count zeros of a function *)
+
+let rec countzero (f: int -> int) a b  : int = 
+let rec count n (f: int -> int) a b = match (f a, b) with 
+(0, b) when a <= b -> count (n+1) f (a+1) b
+| _ when a > b -> n
+| _ -> count n f (a+1) b
+in count 0 f a b;;
+
+assert (countzero (fun x -> x) (-10) 10 = 1);;
+assert (countzero (fun x -> x) 1 10 = 0);;
+assert (countzero (fun x -> x*x - 1) (-10) 10 = 2);;
+assert (countzero (fun x -> (if x<0 then -x else x) - 1) (-10) 10 = 2);;
