@@ -130,15 +130,71 @@ E -> 0
 
 let rec countU (s:bitstring) = match s with
 E -> 0
-| Z -> countU s1
-| U -> 1 + countU s1;;
+| Z s1 -> countU s1
+| U s1 -> 1 + countU s1;;
 
-let rec concat (s1.bitstring) (s2:bitstring) = match s1 s2 with
+let rec concat (s1:bitstring) (s2:bitstring) = match (s1,s2) with
 E, s2 -> s2
 | s1, E -> s1
-| U s1, s2 -> U(concat s1 s2)
-| Z s1, s2 -> Z(concat s1 s2)
+| U s11, s21 -> U(concat s11 s21)
+| Z s11, s21 -> Z(concat s11 s21)
 ;;
 
+concat (Z(Z(Z(U(U(U E)))))) (U(Z(U E)));;
 
+let rec equals (s1:bitstring) (s2:bitstring) : bool = match (s1,s2) with
+(E,E) -> true
+| (E, _) -> false
+| (_,E) -> false
+| (U s1, U s2) -> equals s1 s2
+| (Z s1, Z s2) -> equals s1 s2
+| (_,_ ) -> false
+;;
 
+equals (Z(U(Z E))) (Z(U(Z E)));;
+equals (Z(U(Z E))) (U(Z(U(Z E))));;
+
+let tl s = match s with
+(U s1) -> s1
+|(Z s1) -> s1
+|(E) -> E;;
+
+tl (U(U(U E)));;
+tl (Z(Z(U E)));;
+tl (E);;
+
+let rec prefix (s1:bitstring) (s2:bitstring) : bool = match (s1, s2) with
+(U s1, U s2) -> prefix s1 s2
+| (Z s1, Z s2) -> prefix s1 s2
+| (E, s2) -> true
+| _ -> false;;
+
+prefix (U(U(U(Z E)))) (U(U(U(Z(U(Z E))))));;
+
+let rec substring (s1:bitstring) (s2:bitstring) : bool = match (s1, s2) with
+(U s1, U s2) -> substring s1 s2
+|(Z s1, Z s2) -> substring s1 s2
+| (s1, Z s2) -> substring  s1 s2
+| (s1, U s2) -> substring  s1 s2
+| (E, E) -> true
+| _ -> false;;
+
+substring (U(U(U E))) (U(U(U(U(U E)))));;
+substring (U(U(U E))) (Z(U(U E)));;
+substring (Z(U(Z E))) (Z(U(Z(U(Z E)))));;
+
+(* Esercizio 10 -> Euclid's GCD *)
+
+let rec gcd (a:int) (b:int) =  match (a, b) with
+(a, b) when b > a -> failwith "Errore"
+|(a, b) when b = 0 -> a
+|(a, b) -> gcd b (a mod b);;
+
+gcd 12 6;;
+gcd 20 15;;
+
+(* Esercizio 11 -> Min and max of a function *)
+
+type 'a option = Some of 'a | None
+
+let rec minmaxfun fun a b = 

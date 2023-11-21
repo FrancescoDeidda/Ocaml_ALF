@@ -108,14 +108,14 @@ let minmax3 a b c =
 minmax3 2 3 4;;
 
 
-(* Esercizio 12 -> *)
+(* Esercizio 12 -> Guess a Number *)
 
 let guess5 n = if (n<1 || n>5) then failwith "Errore" else
     (1 + Random.int(5)) |> fun p -> ((if(n=p) then true else false), p);;
 
 guess5 4;;
 
-(* Esercizio 13 -> *)
+(* Esercizio 13 -> 7,11 Doubles *)
 
 let seven_eleven_doubles =
   let d1 = (1 + Random.int(6)) and d2 = (1 + Random.int(6)) in 
