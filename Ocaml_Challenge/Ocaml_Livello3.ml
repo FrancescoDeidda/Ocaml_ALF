@@ -197,4 +197,40 @@ gcd 20 15;;
 
 type 'a option = Some of 'a | None
 
-let rec minmaxfun fun a b = 
+let rec minmaxfun f a b =
+  if a>b then None
+  else match minmaxfun f (a+1) b with
+    None -> Some (f a, f a)
+    | Some (n,m) -> 
+      let n' = if (f a) < n then f a else n
+      and m' = if (f a) > m then f a else m  
+    in Some (n',m')
+  ;;
+
+let rec range a b = if a>b then [] else a :: (range (a+1) b);;
+
+List.map (minmaxfun (fun n -> n * n * n) (-2)) (range (-5) 5);;
+List.map (minmaxfun (fun n -> n * n * n) (2)) (range 0 5);;
+
+
+(* Esercizio 12 -> Sets *)
+
+
+(* Esercizio 13 -> Simple language recognizer *)
+
+let step1 q a = match (q,a) with
+      (0,0) -> 0
+    | (0,1) -> 1
+    | (1,0) -> 0
+    | (1,1) -> 1
+    | _ -> failwith "stato o etichetta inesistente"
+;;
+
+let rec step q w = match w with
+      [] -> q
+    | a::w' -> step (step1 q a) w'
+;; 
+
+let lang w = 
+  try (step 0 w) = 1
+  with _ -> false;;
