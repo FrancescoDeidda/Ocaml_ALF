@@ -216,7 +216,8 @@ List.map (minmaxfun (fun n -> n * n * n) (2)) (range 0 5);;
 (* Esercizio 12 -> Sets *)
 
 
-(* Esercizio 13 -> Simple language recognizer *)
+
+(* ESERCIZIO DA ADATTARE ALL'ESERCIZIO 13 *)
 
 let step1 q a = match (q,a) with
       (0,0) -> 0
@@ -234,3 +235,101 @@ let rec step q w = match w with
 let lang w = 
   try (step 0 w) = 1
   with _ -> false;;
+
+(* Esercizio 14 -> Simple language recognizer *)
+
+let rec lang0 = function
+  (a::[]) -> if(a = 0) then false else if (a = 1) then true else false
+  |(a::w) -> lang0 w
+;;
+
+lang0 [0;0;0;1];;
+lang0 [0;0;0;0];;
+lang0 [0;0;1;1];;
+
+let rec lang1 = function
+   (0::0::w) -> false
+  |(1::0::[]) -> true
+  |(1::1::[]) -> true
+  |(0::1::[]) -> true
+  |(_::w) -> lang1 w
+;;
+
+lang1 [1;1;1;0;0];;
+lang1 [1;1;1;0;1];;
+lang1 [0;0;1;0;1];;
+lang1 [0;0];;
+lang1 [1;1;1;1;1];;
+
+let rec lang2 = function
+    (_::[]) -> true
+  | (1::0::w) -> false
+  | (_::w) -> lang2 w
+  | _ -> failwith "etichetta non accettata"
+
+;;
+
+lang2 [0;0;0];;
+lang2 [0;1;0];;
+lang2 [0;0;1];;
+
+(* CORREGGERE PER AGGIUNGERE LA PAROLA SENZA LO 0 *)
+
+let rec lang3 = function
+  (a::w) when a <> 0 -> lang3 w
+| (0::1::1::w) -> true
+| (a::w) -> true
+| (_) -> false
+;;
+
+lang3 [1;1;1];;
+lang3 [0;1;1];;
+lang3 [3;1;0;1;1;0];;
+lang3 [0;1;0;1;1];;
+
+let lang4 l = 
+  let rec count c l = match (c, l) with
+    (a, []) when a >= 0 -> true
+  | (_, a::w) -> if(a = 0) then count (c+1) w else count (c-1) w
+  | (_,_) -> false
+in count 0 l
+;;
+
+lang4 [1];;
+lang4 [0];;
+lang4 [0;0;1;1];;
+lang4 [0;0;1;1;1];;
+lang4 [0;0;0;1;1];;
+lang4 [0;0;0;1;1;1];;
+
+let lang5 l = 
+  let rec count c l = match (c, l) with
+    (0, [])-> true
+  | (_, a::w) -> if(a = 0) then count (c+1) w else count (c-1) w
+  | (_,_) -> false
+in count 0 l
+;;
+
+lang5 [1];;
+lang5 [0];;
+lang5 [0;0;1;1];;
+lang5 [0;0;1;1;1];;
+lang5 [0;0;0;1;1];;
+lang5 [0;0;0;1;1;1];;
+
+let lang6 l =
+  let rec count c n l = match (c,n,l) with
+    (c,n,[]) when c > 0 && n = 0 -> true
+  | (c,n,0::w) when c = n -> count (c+1) (n+1) w
+  | (c,n,0::w) when c > n -> false
+  | (c,n,1::w) when c >= n -> count c (n-1) w
+  | _ -> false
+in count 0 0 l
+;;
+
+lang6 [0];;
+lang6 [0;1];;
+lang6 [0;0;1;1;1];;
+lang6 [0;0;0;1;1;1];;
+lang6 [0;0;1;1];;
+lang6 [];;
