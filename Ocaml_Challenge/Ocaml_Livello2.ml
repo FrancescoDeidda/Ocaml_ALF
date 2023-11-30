@@ -13,15 +13,11 @@ assert (compare_posfrac (1,2) (2,4) == 0);;
 assert (compare_posfrac (1,2) (1,3) == 1);;
 assert (compare_posfrac (1,2) (2,3) == -1);;
 
-(* Esercizio 2 -> Bounce *)
+(* Esercizio 2 -> Consensus3 *)
 
 
 
-(* Esercizio 3 -> Consensus3 *)
-
-
-
-(* Esercizio 4 -> Tris *)
+(* Esercizio 3 -> Tris *)
 
 let tris (a,b,c,d) : (bool) = match (a,b,c,d) with
     (a,b,c,_) when a=b && a=c -> true
@@ -37,7 +33,7 @@ tris(hand());;
 tris(hand());;
 tris(0,0,0,1);;
 
-(* Esercizio 5 -> Poker *)
+(* Esercizio 4 -> Poker *)
 
 type suit = S | H | D | C;;
 type card = Card of int * suit;;
@@ -69,7 +65,7 @@ poker (Card(1,S),Card(1,H),Card(1,D),Card(2,C),Card(2,S));;
 poker (Card(1,S),Card(1,H),Card(1,D),Card(1,H),Card(2,S));;
 
 
-(* Esercizio 6 -> Sraight *)
+(* Esercizio 5 -> Sraight *)
 
 type suit = S | H | D | C;;
 type card = Card of int * suit;;
@@ -84,13 +80,13 @@ straight (Card(1,S), Card(2,S), Card(3,S), Card(4,S), Card(5,S));;
 straight (Card(5,S), Card(4,S), Card(3,S), Card(2,S), Card(1,S));;
 straight (Card(5,S), Card(5,S), Card(5,S), Card(2,S), Card(1,S));;
 
-(* Esercizio 7 -> Loaded Dice *)
+(* Esercizio 6 -> Loaded Dice *)
 let dice p = 
   if((1+Random.int(100))<= p) then 6 else 1+Random.int(5);;
 
 dice 70;;
 
-(* Esercizio 8 -> Morra *)
+(* Esercizio 7 -> Morra *)
 
 type winner = Player | Computer | Tie ;;
 
@@ -100,7 +96,7 @@ let win (hp,gp) =
   else if ((hp+hc) = gp) then ((hc,gc),Player)
   else ((hc,gc),Tie);;
 
-(* Esercizio 9 -> Sum Range *)
+(* Esercizio 8 -> Sum Range *)
 
 let rec sumrange a b =
   if(a > b) then 0 else a + (sumrange (a+1) b)
@@ -112,7 +108,7 @@ assert (sumrange 1 3 = 6);;
 
 assert (sumrange 3 2 = 0);;
 
-(* Esercizio 10 -> Count zeros of a function *)
+(* Esercizio 9 -> Count zeros of a function *)
 
 let rec countzero (f: int -> int) a b  : int = 
 let rec count n (f: int -> int) a b = match (f a, b) with 
@@ -126,4 +122,25 @@ assert (countzero (fun x -> x) 1 10 = 0);;
 assert (countzero (fun x -> x*x - 1) (-10) 10 = 2);;
 assert (countzero (fun x -> (if x<0 then -x else x) - 1) (-10) 10 = 2);;
 
-(* Esercizio 11 -> Has One *)
+(* Esercizio 10 -> Has One *)
+
+(* ricordati di passare la lista vuota quando richiami la funzione *)
+let rec list_of_int n l = match n with
+    n when n > 0 -> list_of_int (n/10) l@[(n mod 10)]
+  | _ -> []
+;;
+
+let rec has_one n = 
+  let rec scomposizione = function
+    [] -> false
+  | (1::w) -> true
+  | (_::w) -> scomposizione w
+in scomposizione (list_of_int n [])
+;;
+
+
+assert(has_one 10 = true);;
+assert(has_one 220 = false);;
+assert(has_one 911 = true);;
+assert(has_one 451 = true);;
+assert(try has_one (-1) |> fun _ -> false with _ -> true);;
