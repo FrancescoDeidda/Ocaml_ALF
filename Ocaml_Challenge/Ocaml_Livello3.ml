@@ -266,26 +266,25 @@ let rec lang2 = function
   | (1::0::w) -> false
   | (_::w) -> lang2 w
   | _ -> failwith "etichetta non accettata"
-
 ;;
 
 lang2 [0;0;0];;
 lang2 [0;1;0];;
 lang2 [0;0;1];;
 
-(* CORREGGERE PER AGGIUNGERE LA PAROLA SENZA LO 0 *)
 
 let rec lang3 = function
-  (a::w) when a <> 0 -> lang3 w
-| (0::1::1::w) -> true
-| (a::w) -> true
-| (_) -> false
+    [] -> true
+  | (0::1::1::w) -> true
+  | (1::w) -> lang3 w
+  | (_) -> false
 ;;
 
-lang3 [1;1;1];;
-lang3 [0;1;1];;
-lang3 [3;1;0;1;1;0];;
-lang3 [0;1;0;1;1];;
+lang3 [1;1;1;1;1;1;1;1;1;1;1;1];;
+lang3 [1;1;1;1;0;1;0;1;1;1;1;1];;
+lang3 [1;1;1;1;0;1;1;0;1;1;1;1];;
+lang3 [0;1;1;0;1;1;0;1;1;1;1;1];;
+lang3 [0;1;0;1;1;0;1;1;1;1;1;1];;
 
 let lang4 l = 
   let rec count c l = match (c, l) with
@@ -295,12 +294,11 @@ let lang4 l =
 in count 0 l
 ;;
 
-lang4 [1];;
-lang4 [0];;
-lang4 [0;0;1;1];;
-lang4 [0;0;1;1;1];;
-lang4 [0;0;0;1;1];;
-lang4 [0;0;0;1;1;1];;
+lang4 [1;1;1;0;0;0];;
+lang4 [0;1;1;1;0;0;0];;
+lang4 [1;1;1;1;0;0;0];;
+lang4 [1;1;1;2;0;0;0];;
+lang4 [1;0;1;1;0;1;0;0;0];;
 
 let lang5 l = 
   let rec count c l = match (c, l) with
@@ -319,7 +317,8 @@ lang5 [0;0;0;1;1;1];;
 
 let lang6 l =
   let rec count c n l = match (c,n,l) with
-    (c,n,[]) when c > 0 && n = 0 -> true
+    (0,0,[]) -> true
+  | (c,n,[]) when c > 0 && n = 0 -> true
   | (c,n,0::w) when c = n -> count (c+1) (n+1) w
   | (c,n,0::w) when c > n -> false
   | (c,n,1::w) when c >= n -> count c (n-1) w
@@ -333,3 +332,63 @@ lang6 [0;0;1;1;1];;
 lang6 [0;0;0;1;1;1];;
 lang6 [0;0;1;1];;
 lang6 [];;
+
+
+let lang7 l =
+  let rec count c n l = match (c,n,l) with
+  | (1,0,[]) -> true
+  | (c,n,[]) when c > 0 && n = 0 -> true
+  | (c,n,0::w) when c = n -> count (c+1) (n+1) w
+  | (c,n,0::w) when c > n -> count (c-1) (n-1) w
+  | (c,n,1::0::w) when c >= n -> count c (n-1) w
+  | (0,0,1::[]) -> true 
+  | _ -> false
+in count 0 0 l
+;;
+
+
+lang7 [1];;
+lang7 [0;1;0];;
+lang7 [0;0;0;1;0;0;0];;
+lang7 [0;0;0;0;0;0;0];;
+lang7 [0;0;0;1;0;0];;
+lang7 [0;0;1;0;0;0];;
+
+let rec count a = function
+    [] -> 0
+  | b::l -> if b=a then 1 + count a l else count a l
+;;
+
+let rec lang8 = function
+  [] -> true
+| (0::w) -> lang8 w 
+| (2::w) -> lang8 w
+| (1::w) -> (count 0 w = count 2 w) && lang8 w
+| _ -> false
+;;
+
+lang8 [1;2;0];;
+lang8 [2;0;2];;
+lang8 [1;2;1;0];;
+lang8 [1;2;1;0;2;0];;
+lang8 [1;2;0;1;0;2;2;0];;
+
+
+
+let lang9 l =
+  let rec count c n l = match (c,n,l) with
+    (0,0,[]) -> true
+  | (c,n,[]) when c > 0 && n = 0 -> true
+  | (c,n,0::w) when c = n -> count (c+1) (n+1) w
+  | (c,n,0::w) when c > n -> false
+  | (c,n,1::w) when c >= n -> count c (n-1) w
+  | (c,n,2::w) -> count c n w
+  | _ -> false
+in count 0 0 l
+;;
+
+
+lang9 [2;0;2;1;2];;
+lang9 [0;2;0;1;2];;
+lang9 [2;0;1;2;1];;
+lang9 [0;0;2;2;1;1;2;2];;
