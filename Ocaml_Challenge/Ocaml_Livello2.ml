@@ -125,19 +125,10 @@ assert (countzero (fun x -> (if x<0 then -x else x) - 1) (-10) 10 = 2);;
 (* Esercizio 10 -> Has One *)
 
 (* ricordati di passare la lista vuota quando richiami la funzione *)
-let rec list_of_int n l = match n with
-    n when n > 0 -> list_of_int (n/10) l@[(n mod 10)]
-  | _ -> []
-;;
 
 let rec has_one n = 
-  let rec scomposizione = function
-    [] -> false
-  | (1::w) -> true
-  | (_::w) -> scomposizione w
-in scomposizione (list_of_int n [])
+  if(n>0) then if(n mod 10 = 1) then true else has_one (n/10) else false
 ;;
-
 
 assert(has_one 10 = true);;
 assert(has_one 220 = false);;
