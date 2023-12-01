@@ -124,8 +124,6 @@ assert (countzero (fun x -> (if x<0 then -x else x) - 1) (-10) 10 = 2);;
 
 (* Esercizio 10 -> Has One *)
 
-(* ricordati di passare la lista vuota quando richiami la funzione *)
-
 let rec has_one n = 
   if(n>0) then if(n mod 10 = 1) then true else has_one (n/10) else false
 ;;

@@ -374,7 +374,6 @@ lang8 [1;2;1;0;2;0];;
 lang8 [1;2;0;1;0;2;2;0];;
 
 
-
 let lang9 l =
   let rec count c n l = match (c,n,l) with
     (0,0,[]) -> true
@@ -386,7 +385,6 @@ let lang9 l =
   | _ -> false
 in count 0 0 l
 ;;
-
 
 lang9 [2;0;2;1;2];;
 lang9 [0;2;0;1;2];;
