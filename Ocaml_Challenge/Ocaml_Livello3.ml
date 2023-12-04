@@ -1,4 +1,4 @@
-(* Esercizio 1 -> Reverse a list *)
+(* Esercizio 2 -> Reverse a list *)
 
 let rec rev = function
 ([]) -> []
@@ -7,7 +7,7 @@ let rec rev = function
 
 rev [1;2;3;4];;
 
-(* Esercizio 2 -> String of list *)
+(* Esercizio 3 -> String of list *)
 
 let rec concat = function 
 ([]) -> "[]"
@@ -21,7 +21,7 @@ string_of_list [1];;
 string_of_list [1;2;3];;
 
 
-(* Esercizio 3 -> Random List *)
+(* Esercizio 4 -> Random List *)
 
 let rnd_list n b = 
   let rec aux n b l = match (n, b, l) with
@@ -31,14 +31,14 @@ in aux n b [];;
 
 rnd_list 3 6;;
 
-(* Esercizio 4 -> Rotate List *)
+(* Esercizio 5 -> Rotate List *)
 
 let rec rotate n (l: 'a list) = match (n, l) with
  (n, []) when n > 0 -> []
 | (n, l1::l2) when n> 0 -> rotate (n-1) (l2 @ [l1])
 | (n, l) when n = 0 -> l;;
 
-(* Esercizio 5 -> Consecutive Even *)
+(* Esercizio 6 -> Consecutive Even *)
 
 let consecutive_even l =
   let rec count n max l'= match (n, l') with
@@ -49,11 +49,11 @@ in count 0 0 l
 ;;
 
 
-(* Esercizio 6 -> Enumeration of integer *)
+(* Esercizio 7 -> Enumeration of integer *)
 
 let enum_int n = if(n mod 2 = 0) then n/2 else (-((n/2)+1));;
 
-(* Esercizio 7 -> Enumeration of pairs of naturals *)
+(* Esercizio 8 -> Enumeration of pairs of naturals *)
 
 let rec enum_nat_nat n = match n with
 (0) -> (0,0)
@@ -61,7 +61,7 @@ let rec enum_nat_nat n = match n with
 (x,0) -> (0,x+1)
 |(x,y) -> (x+1, y-1);;
 
-(* Esercizio 8 -> Peano Artihmetics *)
+(* Esercizio 9 -> Peano Artihmetics *)
 
 type nat = Z | S of nat;;
 
@@ -109,7 +109,7 @@ let rec leq a b = match (a,b) with
 |(S a, S b) -> leq a b
 |_ -> false;;
 
-(* Esercizio 9 -> Bit String *)
+(* Esercizio 10 -> Bit String *)
 
 type bitstring = E | Z of bitstring | U of bitstring;;
 
@@ -183,7 +183,7 @@ substring (U(U(U E))) (U(U(U(U(U E)))));;
 substring (U(U(U E))) (Z(U(U E)));;
 substring (Z(U(Z E))) (Z(U(Z(U(Z E)))));;
 
-(* Esercizio 10 -> Euclid's GCD *)
+(* Esercizio 11 -> Euclid's GCD *)
 
 let rec gcd (a:int) (b:int) =  match (a, b) with
 (a, b) when b > a -> failwith "Errore"
@@ -193,7 +193,7 @@ let rec gcd (a:int) (b:int) =  match (a, b) with
 gcd 12 6;;
 gcd 20 15;;
 
-(* Esercizio 11 -> Min and max of a function *)
+(* Esercizio 12 -> Min and max of a function *)
 
 type 'a option = Some of 'a | None
 
@@ -213,28 +213,15 @@ List.map (minmaxfun (fun n -> n * n * n) (-2)) (range (-5) 5);;
 List.map (minmaxfun (fun n -> n * n * n) (2)) (range 0 5);;
 
 
-(* Esercizio 12 -> Sets *)
+(* Esercizio 13 -> Sets *)
 
+mem : 'a -> 'a list -> bool
 
-
-(* ESERCIZIO DA ADATTARE ALL'ESERCIZIO 13 *)
-
-let step1 q a = match (q,a) with
-      (0,0) -> 0
-    | (0,1) -> 1
-    | (1,0) -> 0
-    | (1,1) -> 1
-    | _ -> failwith "stato o etichetta inesistente"
-;;
-
-let rec step q w = match w with
-      [] -> q
-    | a::w' -> step (step1 q a) w'
-;; 
-
-let lang w = 
-  try (step 0 w) = 1
-  with _ -> false;;
+assert(mem 1 [1;3;5]);;
+assert(mem 2 [1;3;5] = false);;
+assert(mem [1;2] [[1];[2];[2;1]] = false);;
+assert(mem [1;2] [[1];[2];[2;1]] = false);;
+assert(mem [1;2] [[1];[2];[1;2]]);;
 
 (* Esercizio 14 -> Simple language recognizer *)
 
@@ -332,7 +319,6 @@ lang6 [0;0;1;1;1];;
 lang6 [0;0;0;1;1;1];;
 lang6 [0;0;1;1];;
 lang6 [];;
-
 
 let lang7 l =
   let rec count c n l = match (c,n,l) with
