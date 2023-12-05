@@ -215,13 +215,32 @@ List.map (minmaxfun (fun n -> n * n * n) (2)) (range 0 5);;
 
 (* Esercizio 13 -> Sets *)
 
-mem : 'a -> 'a list -> bool
+let rec mem x = function
+    [] -> false
+  | y::l -> x=y || mem x l;;
+;; 
 
 assert(mem 1 [1;3;5]);;
 assert(mem 2 [1;3;5] = false);;
 assert(mem [1;2] [[1];[2];[2;1]] = false);;
 assert(mem [1;2] [[1];[2];[2;1]] = false);;
 assert(mem [1;2] [[1];[2];[1;2]]);;
+
+let rec subseteq xl yl = match xl with
+    [] -> true
+  |  x::xl' -> mem x yl && subseteq xl' yl
+;;
+
+assert(subseteq [] [1;3;5]);;
+assert(subseteq [1;5] [5;1]);;
+assert(subseteq [1;5] [1;3;5]);;
+assert(subseteq [1;5] [5;3;1]);;
+assert(subseteq [2] [1;3;5] = false);;
+assert(subseteq [[1;2]] [[1];[2];[2;1]] = false);;
+assert(subseteq [[1];[2;1]] [[1];[2];[2;1]]);;
+
+let rec seteq l1 l2 = match l1 with
+x::l1' -> mem 
 
 (* Esercizio 14 -> Simple language recognizer *)
 
