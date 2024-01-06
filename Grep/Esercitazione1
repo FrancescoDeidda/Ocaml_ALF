@@ -1,5 +1,7 @@
 1) Studenti il cui numero di matricola (escluso il prefisso xx/yy/) inizia con 65
 
+grep -e "../../[6][5]..." alf.csv
+
 60/61/65570,Ambra,Ambu,21,0
 61/61/65778,Brunello,Brundu,18,0
 60/61/65624,Costantino,Cossu,24,0
@@ -22,6 +24,8 @@
 
 2) Studenti con numero di matricola pari
 
+grep -e "../../....[02468]" alf.csv
+
 60/61/65570,Ambra,Ambu,21,0
 61/61/65778,Brunello,Brundu,18,0
 60/61/65624,Costantino,Cossu,24,0
@@ -40,6 +44,8 @@
 
 3) Studenti il cui numero di matricola non inizia con il prefisso 60/61
 
+grep -v "60/61" alf.csv
+
 61/61/65778,Brunello,Brundu,18,0
 60/64/20203,Gavino,Girau,20,0
 61/61/65213,Nathan,Nieddu,16,0
@@ -47,8 +53,11 @@
 
 4) Studenti il cui numero di matricola inizia con 60/xy ma “xy” è diverso da 61
 
+grep "60/.." | grep -v "../61" alf.csv
+
 60/64/20203,Gavino,Girau,20,0
 60/64/21222,Quintilio,Quaglioni,22,0
 
 5) Studenti con numero di matricola palindromo (ad es. 65156)
+
 
