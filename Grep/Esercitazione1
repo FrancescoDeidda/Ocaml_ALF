@@ -1,6 +1,7 @@
 1) Studenti il cui numero di matricola (escluso il prefisso xx/yy/) inizia con 65
 
 cat alf.csv | egrep "../../65"
+cat alf.csv | egrep "[0-9]*/[0-9]*/65"
 
 60/61/65570,Ambra,Ambu,21,0
 61/61/65778,Brunello,Brundu,18,0
@@ -24,6 +25,8 @@ cat alf.csv | egrep "../../65"
 
 2) Studenti con numero di matricola pari
 
+cat alf.csv | egrep "[0-9]*/[0-9]*/[0-9]*[02468],"
+
 60/61/65570,Ambra,Ambu,21,0
 61/61/65778,Brunello,Brundu,18,0
 60/61/65624,Costantino,Cossu,24,0
@@ -42,6 +45,8 @@ cat alf.csv | egrep "../../65"
 
 3) Studenti il cui numero di matricola non inizia con il prefisso 60/61
 
+cat alf.csv | egrep -v "60/61/"
+
 61/61/65778,Brunello,Brundu,18,0
 60/64/20203,Gavino,Girau,20,0
 61/61/65213,Nathan,Nieddu,16,0
@@ -49,9 +54,161 @@ cat alf.csv | egrep "../../65"
 
 4) Studenti il cui numero di matricola inizia con 60/xy ma “xy” è diverso da 61
 
+cat alf.csv | egrep "^60/" | egrep -v "../61/"
+
 60/64/20203,Gavino,Girau,20,0
 60/64/21222,Quintilio,Quaglioni,22,0
 
 5) Studenti con numero di matricola palindromo (ad es. 65156)
 
+cat alf.csv | egrep "[0-9]*/[0-9]*/([0-9])([0-9]).*\2\1,"
 
+60/61/65556,Jhonny,Rocky,21,1
+
+6) Studenti il cui numero di matricola non è della forma “due cifre/due cifre/5 cifre” (ad es. 60/1/6111)
+
+cat alf.csv | egrep -v "^../../"
+
+6/5/65453,Nenno,Frari,20,0
+
+7) Studenti il cui nome è lungo non più di 4 lettere
+
+ cat alf.csv | egrep -i ",[a-z]{1,4},[a-z]{1,}"
+
+60/61/65546,Ciao,Rocky,21,1
+
+8) Studenti il cui nome termina con la lettera ‘a’ 
+
+cat alf.csv | egrep -i "[0-9],[a-z]*a,"
+
+60/61/65570,Ambra,Ambu,21,0
+60/61/65832,Ornella,Onnis,30,1
+60/61/65907,Rihanna,Ruzzu,18,0
+60/61/65730,Tatiana,Truzzu,30,1
+60/61/65722,Valentina,Vargiu,30,1
+
+9) Studenti il cui nome contiene numeri o caratteri speciali  (ad es. G1n@)
+
+ cat alf.csv | egrep -i -v "[0-9],[a-z]*," | egrep -v " "
+
+ 60/61/65273,G1n@,Nenna,30,1
+
+ 10) Studenti con più di un nome (ad es. Alessandro Sebastian)
+
+ cat alf.csv | egrep -i " "ù
+
+ 60/61/65563,Igino igor,Ibba,15,0
+
+ 11) Studenti il cui cognome inizia con la lettera B
+
+ cat alf.csv | egrep -i ",[a-z]*,b"
+
+ 61/61/65778,Brunello,Brundu,18,0
+60/61/65345,Alexandra,Brelstaff,30,1
+
+12) Studenti il cui cognome finisce con una consonante
+
+cat alf.csv | egrep -i -v ",.*[aeiouy],[0-9]+" | egrep -i ",[0-9]+"
+
+60/61/65808,Deborah,Demurtas,28,0
+60/61/65668,Efisio,Ennas,18,0
+60/61/65892,heidi,hernandez,8,1
+60/61/65448,Morgan,Murtas,15,0
+60/61/65832,Ornella,Onnis,30,1
+60/61/65766,Samantah,Sulis,30,0
+60/61/65345,Alexandra,Brelstaff,30,1
+
+13) Studenti il cui cognome inizia con una lettera minuscola
+
+ cat alf.csv | egrep ",.*,[a-z].*,"
+
+ 60/61/65892,heidi,hernandez,8,1
+
+14) Studenti il cui nome inizia con la stessa lettera (maiuscola) del cognome (ad es. Gino Girau)
+
+ cat alf.csv | egrep ",([A-Z]).*,\1.*,"
+
+60/61/65570,Ambra,Ambu,21,0
+61/61/65778,Brunello,Brundu,18,0
+60/61/65624,Costantino,Cossu,24,0
+60/61/65808,Deborah,Demurtas,28,0
+60/61/65668,Efisio,Ennas,18,0
+60/61/65564,Felicino,Frau,-,-
+60/64/20203,Gavino,Girau,20,0
+60/61/65563,Igino igor,Ibba,15,0
+60/61/64427,Lillo,Lilliu,25,0
+60/61/65448,Morgan,Murtas,15,0
+61/61/65213,Nathan,Nieddu,16,0
+60/61/65832,Ornella,Onnis,30,1
+60/61/65517,Pinuccio,Puddu,28,0
+60/64/21222,Quintilio,Quaglioni,22,0
+60/61/65907,Rihanna,Ruzzu,18,0
+60/61/65766,Samantah,Sulis,30,0
+60/61/65730,Tatiana,Truzzu,30,1
+60/61/65738,Ubaldo,Urru,-,-
+60/61/65722,Valentina,Vargiu,30,1
+60/61/65592,Zlatan,Zuncheddu,18,0
+
+15) Studenti il cui nome e cognome hanno un prefisso comune di almeno 3 lettere (ad es. Gino Gini) 
+
+ cat alf.csv | egrep -i ",([a-z])([a-z])([a-z]).*,\1\2\3.*,"
+
+60/61/65570,Ambra,Ambu,21,0
+61/61/65778,Brunello,Brundu,18,0
+60/61/65624,Costantino,Cossu,24,0
+60/61/64427,Lillo,Lilliu,25,0
+60/61/65345,Gino,Gini,30,1
+
+16) Studenti senza voto (l’assenza di voto è rappresentata dal simbolo -)
+
+ cat alf.csv | egrep "-"
+
+60/61/65564,Felicino,Frau,-,-
+60/61/65738,Ubaldo,Urru,-,-
+
+17) Studenti con un voto (non usare l’opzione - v o --invert-match)
+
+cat alf.csv | egrep -i ",-,.*$"
+
+60/61/65564,Felicino,Frau,-,-
+60/61/65738,Ubaldo,Urru,-,-
+
+18) Studenti con un voto sufficiente (maggiore o uguale a 18)
+
+cat alf.csv | egrep -i ",[1-3][0-9],.*$" | egrep -i -v ",1[0-7],.*$"
+
+60/61/65570,Ambra,Ambu,21,0
+61/61/65778,Brunello,Brundu,18,0
+60/61/65624,Costantino,Cossu,24,0
+60/61/65808,Deborah,Demurtas,28,0
+60/61/65668,Efisio,Ennas,18,0
+60/64/20203,Gavino,Girau,20,0
+60/61/64427,Lillo,Lilliu,25,0
+60/61/65832,Ornella,Onnis,30,1
+60/61/65517,Pinuccio,Puddu,28,0
+60/64/21222,Quintilio,Quaglioni,22,0
+60/61/65907,Rihanna,Ruzzu,18,0
+60/61/65766,Samantah,Sulis,30,0
+60/61/65730,Tatiana,Truzzu,30,1
+60/61/65722,Valentina,Vargiu,30,1
+60/61/65592,Zlatan,Zuncheddu,18,0
+60/61/65556,Jhonny,Rocky,21,1
+6/5/65453,Nenno,Frari,20,0
+60/61/65546,Ciao,Rocky,21,1
+60/61/65273,G1n@,Nenna,30,1
+60/61/65345,Alexandra,Brelstaff,30,1
+60/61/65345,Gino,Gini,30,1
+
+19) Studenti con lode ma voto diverso da 30
+
+cat alf.csv | egrep -i -v ",30,.*$" | egrep -i ",1$"
+
+60/61/65892,heidi,hernandez,8,1
+60/61/65556,Jhonny,Rocky,21,1
+60/61/65546,Ciao,Rocky,21,1
+
+20) Studenti con voto fuori dal range 0-30
+
+cat alf.csv | egrep -i -v ",[0-2][0-9],.*$" | egrep -i ",3[1-9],.*$"
+
+60/61/65345,Pelo,Gini,33,1
