@@ -1,0 +1,5 @@
+sed "/.*,.*,.*,[0-9]*,.*$/d" alfSed.csv > alfSed2.csv
+
+60/61/65564,Felicino,Frau,-,-
+60/61/65738,Ubaldo,Urru,-,-
+

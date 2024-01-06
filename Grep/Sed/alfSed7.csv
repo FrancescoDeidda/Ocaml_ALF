@@ -1,0 +1,31 @@
+sed -E "s/,[0-9]*,.*$/,*,*/" alfSed.csv > alfSed7.csv
+
+60/61/65570,Ambra,Ambu,*,*
+60/61/65778,Brunello,Brundu,*,*
+60/61/65624,Costantino,Cossu,*,*
+60/61/65808,Deborah,Demurtas,*,*
+60/61/65668,Efisio,Ennas,*,*
+60/61/65564,Felicino,Frau,-,-
+60/64/20203,Gavino,Girau,*,*
+60/61/65892,ciao,come8,1
+60/61/65563,Igino igor,Ibba,*,*
+60/61/64427,Lillo,Lilliu,*,*
+60/61/65448,Morgan,Murtas,*,*
+60/61/65213,Nathan,Nieddu,*,*
+60/61/65832,Ornella,Onnis,*,*
+60/61/65517,Pinuccio,Puddu,*,*
+60/64/21222,Quintilio,Quaglioni,*,*
+60/61/65907,Rihanna,Ruzzu,*,*
+60/61/65766,Samantah,Sulis,*,*
+60/61/65730,Tatiana,Truzzu,*,*
+60/61/65738,Ubaldo,Urru,-,-
+60/61/65722,Valentina,Vargiu,*,*
+60/61/65592,Zlatan,Zuncheddu,*,*
+60/61/65556,Jhonny,Rocky,*,*
+6/5/65453,Nenno,Frari,*,*
+60/61/65546,Ciao,Rocky,*,*
+60/61/65273,G1n@,Nenna,*,*
+60/61/65345,Alexandra,Brelstaff,*,*
+60/61/65345,Gino,Gini,*,*
+60/61/65345,Pelo,Gini,*,*
+
